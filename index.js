@@ -23,9 +23,11 @@ app.listen(PORT, () => {
 const fs = require('fs');
 
 const talkersFile = fs.readFileSync('./talker.json', 'utf-8');
+
 app.get('/talker', (req, res) => {
-  console.log(talkersFile);
-  const empty = [];
-  if (talkersFile.length !== 0) { return (res.status(200).send(talkersFile)); }
-  return res.status(200).send(empty);
+  // console.log(JSON.parse(talkersFile));
+  // console.log(JSON.parse(talkersFile).length);
+
+  if (talkersFile.length !== 0) { return (res.status(200).send(JSON.parse(talkersFile))); }
+  return res.status(200).send(JSON.parse('[]'));
 });
