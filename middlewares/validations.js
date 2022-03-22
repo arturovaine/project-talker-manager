@@ -85,9 +85,9 @@ const isValidAge18yo = (req, res, next) => {
 };
 
 const isTalkDateFilled = (req, res, next) => {
-    const { talk: { watchedAt } } = req.body;
+    // const { talk: { watchedAt } } = req.body;
 
-    if (!watchedAt || watchedAt === undefined) {
+    if (req.body.talk === undefined || req.body.talk.watchedAt === undefined) {
         return (res.status(400).json({
             message: 'O campo "talk" é obrigatório e "watchedAt" e "rate" não podem ser vazios',
         }));
@@ -110,9 +110,9 @@ const isValidTalkDate = (req, res, next) => {
 };
 
 const isTalkRateFilled = (req, res, next) => {
-    const { talk: { rate } } = req.body;
+    // const { talk: { rate } } = req.body;
 
-    if (!rate || rate === undefined) {
+    if (req.body.talk.rate === undefined) {
         return (res.status(400).json({
             message: 'O campo "talk" é obrigatório e "watchedAt" e "rate" não podem ser vazios',
         }));
