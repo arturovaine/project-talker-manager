@@ -8,10 +8,13 @@ const {
   isValidEmail,
   isValidPassword,
   isValidToken,
-  isValidName,
+  isValidNameFilled,
+  isValidNameLength,
   isValidAge,
-  isValidTalk,
+  isValidTalkDate,
+  isValidTalkRate,
   isValidTalkFilled,
+  authMiddleware,
 } = require('../middlewares/validations');
 
 // 1 - Crie o endpoint GET /talker
@@ -48,20 +51,29 @@ router.post(
 
 router.post(
   '/talker',
+  authMiddleware,
   isValidToken,
-  isValidName,
+  isValidNameFilled,
+  isValidNameLength,
   isValidAge,
-  isValidTalk,
+  isValidTalkDate,
+  isValidTalkRate,
   isValidTalkFilled,
-  (_req, res) => res.status(200).json({
-    id: 1,
-    name: 'Danielle Santos',
-    age: 56,
-    talk: {
-      watchedAt: '22/10/2019',
-      rate: 5,
-    },
-  }),
+  (_req, res) => {
+    const talkers = fs.readFile('./talker.json', 'utf8');
+
+    talkers.push({
+      id: 1,
+      name: 'Danielle Santos',
+      age: 56,
+      talk: {
+        watchedAt: '22/10/2019',
+        rate: 5,
+      },
+    });
+
+    return (res.status(201).json(JSON.parse(talkers)));
+  },
 );
 
 module.exports = router;

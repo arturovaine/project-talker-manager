@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 // 3 - Crie o endpoint POST /login -> login.test.js
 
 const isValidEmail = (req, res, next) => {
@@ -34,6 +35,7 @@ const isValidPassword = (req, res, next) => {
 
 const isValidToken = (req, res, next) => {
     const token = req.headers.authorization;
+    console.log(req);
 
     if (!token) { return (res.status(401).json({ message: 'Token não encontrado' })); }
 
@@ -42,15 +44,21 @@ const isValidToken = (req, res, next) => {
     next();
 };
 
-const isValidName = (req, res, next) => {
+const isValidNameFilled = (req, res, next) => {
     const { name } = req.body;
 
     if (!name) {
-        return (res.status(400).json({ message: 'O campo "name" é obrigatório' }));
+        return (res.status(400).json({ message: "O campo \"name\" é obrigatório" }));
     }
 
-    if (name) {
-        return (res.status(400).json({ message: 'O campo "name" é obrigatório' }));
+    next();
+};
+
+const isValidNameLength = (req, res, next) => {
+    const { name } = req.body;
+
+    if (name && name < 3) {
+        return (res.status(400).json({ message: "O \"name\" deve ter pelo menos 3 caracteres" }));
     }
 
     next();
@@ -59,7 +67,7 @@ const isValidName = (req, res, next) => {
 const isValidAge = (req, res, next) => {
     const { age } = req.body;
 
-    if (!age) { return (res.status(401).json({ message: 'O campo "age" é obrigatório' })); }
+    if (!age) { return (res.status(401).json({ message: "O campo \"age\" é obrigatório" })); }
 
     if (age < 18) {
         return (res.status(401).json({
@@ -70,41 +78,76 @@ const isValidAge = (req, res, next) => {
     next();
 };
 
-const isValidTalk = (req, res, next) => {
-    const { talk: { watchedAt, rate } } = req.body;
+const isValidTalkDate = (req, res, next) => {
+    const { talk: { watchedAt } } = req.body;
     const regexDate = /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/;
 
     if (!watchedAt.match(regexDate)) {
         return (res.status(400).json({
-            message: 'O campo "watchedAt" deve ter o formato dd/mm/aaaa"',
+            message: "O campo \"watchedAt\" deve ter o formato \"dd/mm/aaaa\"",
         }));
-    }
-
-    if (!Number.isInteger(rate) || rate < 1 || rate > 5) {
-        return (res.status(400).json({ message: 'O campo "rate" deve ser um inteiro de 1 à 5' }));
     }
 
     next();
 };
+
+const isValidTalkRate = (req, res, next) => {
+    const { talk: { rate } } = req.body;
+
+    if (!Number.isInteger(rate) || rate < 1 || rate > 5) {
+        return (res.status(400).json({ message: "O campo \"rate\" deve ser um inteiro de 1 à 5" }));
+    }
+
+    next();
+};
+/*
+const isValidTalk = (req, res, next) => {
+    const { talk: { watchedAt, rate } } = req.body;
+
+    if (talk.length === 0 || !rate) {
+        return (res.status(400).json({
+          message: "O campo \"talk\" é obrigatório e \"watchedAt\" e \"rate\" não podem ser vazios",
+        }));
+    }
+
+    next();
+};
+*/
 
 const isValidTalkFilled = (req, res, next) => {
     const { talk: { watchedAt, rate } } = req.body;
 
     if (!watchedAt || !rate) {
         return (res.status(400).json({
-            message: 'O campo "talk" é obrigatório e "watchedAt" e "rate" não podem ser vazios',
+          message: "O campo \"talk\" é obrigatório e \"watchedAt\" e \"rate\" não podem ser vazios",
         }));
     }
 
     next();
 };
 
+const authMiddleware = (req, res, next) => {
+    const { headers } = req;
+    console.log('Headers:');
+    console.log(headers);
+
+    if (headers.authorization) {
+        next();
+    } else {
+        res.status(401).json({ message: "Token não encontrado" });
+        next();
+    }
+};
+
 module.exports = {
     isValidEmail,
     isValidPassword,
     isValidToken,
-    isValidName,
+    isValidNameFilled,
+    isValidNameLength,
     isValidAge,
-    isValidTalk,
+    isValidTalkDate,
+    isValidTalkRate,
     isValidTalkFilled,
+    authMiddleware,
 };
