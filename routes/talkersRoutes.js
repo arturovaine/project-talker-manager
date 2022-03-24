@@ -115,18 +115,25 @@ router.put(
 );
 
 // 6 - Crie o endpoint DELETE /talker/:id
-/*
+
 router.delete(
   '/talker/:id',
+  isValidToken,
   (req, res) => {
     const { id } = req.params;
-    const talkers = fs.promises.readFile('./talker.json', 'utf-8');
-    const talkerIndex = talkers.findIndex((t) => t.id === parseInt(id));
+    let talkers = fs.readFileSync(path, 'utf-8');
+    talkers = JSON.parse(talkers);
+
+    const conditionIndex = (talker) => parseInt(talker.id, 10) === parseInt(id, 10);
+    const index = talkers.findIndex(conditionIndex);
+
+    delete talkers[index];
+    
+    fs.writeFileSync(path, JSON.stringify(talkers), 'utf-8');
 
     res.status(204).end();
   },
 );
-*/
 
 // 7 - Crie o endpoint GET /talker/search?q=searchTerm
 /*
