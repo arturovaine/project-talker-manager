@@ -31,7 +31,6 @@ const isValidPassword = (req, res, next) => {
 };
 
 // 4 - Crie o endpoint POST /talker -> createTalker.test.js
-
 // Será validado que não é possível cadastrar uma pessoa palestrante sem nome
 const isNameFilled = (req, res, next) => {
     const { name } = req.body;
@@ -138,7 +137,6 @@ const isValidTalkDate = (req, res, next) => {
 };
 
 // Será validado que não é possível cadastrar uma pessoa palestrante sem estar autorizado
-
 const authMiddleware = (req, res, next) => {
     const { headers } = req;
 

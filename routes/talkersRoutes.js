@@ -19,10 +19,12 @@ const {
   isTalkFilled,
 } = require('../middlewares/validations');
 
+const path = './talker.json';
+
 // 1 - Crie o endpoint GET /talker
 
 router.get('/talker', async (req, res) => {
-  const talkers = await fs.promises.readFile('./talker.json', 'utf-8');
+  const talkers = await fs.promises.readFile(path, 'utf-8');
 
   return (res.status(200).json(JSON.parse(talkers)));
 });
@@ -30,7 +32,7 @@ router.get('/talker', async (req, res) => {
 // 2 - Crie o endpoint GET /talker/:id
 
 router.get('/talker/:id', async (req, res) => {
-  const talkers = await fs.promises.readFile('./talker.json', 'utf-8');
+  const talkers = await fs.promises.readFile(path, 'utf-8');
   
   const { id } = req.params;
 
@@ -64,53 +66,25 @@ router.post(
   isValidTalkRate,
   isTalkFilled,
   (req, res) => {
-    let talkers = fs.readFileSync('./talker.json', 'utf-8');
+    let talkers = fs.readFileSync(path, 'utf-8');
     talkers = JSON.parse(talkers);
 
     const { name, age, talk: { watchedAt, rate } } = req.body;
 
     talkers.push({ name, age, id: talkers.length + 1, talk: { watchedAt, rate } });
   
-    const updatedTalkers = fs.writeFileSync('./talker.json', JSON.stringify(talkers), 'utf-8');
-    console.log(typeof updatedTalkers);
+    fs.writeFileSync(path, JSON.stringify(talkers), 'utf-8'); // converte objeto JS para string JSON
+
     res.status(201).json({ name, age, id: talkers.length, talk: { watchedAt, rate } });  
   },
 );
 
-/*
-const talkers = fs.readFile('./talker.json', 'utf8');
-
-    talkers.push({
-      id: 1,
-      name: 'Danielle Santos',
-      age: 56,
-      talk: {
-        watchedAt: '22/10/2019',
-        rate: 5,
-      },
-    });
-
-    return (res.status(201).json(JSON.parse(talkers)));
-*/
-
-/*
-const talkers = fs.promises.readFile('./talker.json', 'utf-8');
-
-    const { name, age, id, talk: { watchedAt, rate } } = req.body;
-
-    talkers.push({ name, age, id, talk: { watchedAt, rate } });
-  
-    const updatedTalkers = fs.writeFile('./talker.json', talkers, 'utf-8');
-
-    res.status(201).json(updatedTalkers);
-*/
-
 // 5 - Crie o endpoint PUT /talker/:id
-/*
+
 router.put(
   '/talker/:id',
   isValidToken,
-  isValidNameFilled,
+  isNameFilled,
   isValidNameLength,
   isValidAge,
   isValidAge18yo,
@@ -118,15 +92,27 @@ router.put(
   isValidTalkDate,
   isTalkRateFilled,
   isValidTalkRate,
-  isValidTalkFilled,
+  isTalkFilled,
   (req, res) => {
     const { id } = req.params;
-    const talkers = fs.readFile('./talker.json', 'utf-8');
-    const chosenTalker = talkers.find((t) => t.id === id);
-    
+    const { name, age, talk: { watchedAt, rate } } = req.body;
+
+    let talkers = fs.readFileSync(path, 'utf-8');
+    talkers = JSON.parse(talkers);
+
+    const conditionIndex = (talker) => parseInt(talker.id, 10) === parseInt(id, 10);
+    const index = talkers.findIndex(conditionIndex);
+
+    talkers[index].name = name;
+    talkers[index].age = age;
+    talkers[index].talk.watchedAt = watchedAt;
+    talkers[index].talk.rate = rate;    
+
+    fs.writeFileSync(path, JSON.stringify(talkers), 'utf-8'); // converte objeto JS para string JSON
+
+    res.status(200).json(talkers[index]);
   },
 );
-*/
 
 // 6 - Crie o endpoint DELETE /talker/:id
 /*
