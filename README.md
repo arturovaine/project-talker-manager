@@ -58,6 +58,10 @@ app.use(talkersRoutes);
 
 ### 1 - Criação do endpoint GET `/talker`
 
+
+Endpoint deve retornar um array com todas as pessoas palestrantes cadastradas.
+
+
 ```JavaScript
 router.get('/talker', async (req, res) => {
   const talkers = await fs.promises.readFile(path, 'utf-8');
@@ -67,6 +71,10 @@ router.get('/talker', async (req, res) => {
 ```
 
 ### 2 - Criação do endpoint GET `/talker/:id`
+
+
+Endpoint deve retornar uma pessoa palestrante com base no id da rota. Deve retornar o status 200 ao fazer uma requisição `/talker/1`, por exemplo.
+
 
 ```JavaScript
 router.get('/talker/:id', async (req, res) => {
@@ -83,6 +91,9 @@ router.get('/talker/:id', async (req, res) => {
 
 ### 3 - Criação do endpoint POST `/login`
 
+Endpoint retorna um token aleatório de 16 caracteres que será ser utilizado nas demais requisições.
+Endpoint retorna um código de status 200 com o token gerado.
+
 ```JavaScript
 router.post(
   '/login',
@@ -93,6 +104,9 @@ router.post(
 ```
 
 ### 4 - Criação do endpoint POST `/talker`
+
+Endpoint deve ser capaz de adicionar uma nova pessoa palestrante ao seu arquivo.
+
 ```JavaScript
 router.post(
   '/talker',
@@ -122,6 +136,9 @@ router.post(
 ```
 
 ### 5 - Criação do endpoint PUT `/talker/:id`
+
+Endpoint para editar uma pessoa palestrante com base no id da rota, sem alterar o id registrado.
+
 
 ```JavaScript
 router.put(
@@ -160,6 +177,9 @@ router.put(
 
 ### 6 - Criação do endpoint DELETE `/talker/:id`
 
+Endpoint deleta uma pessoa palestrante com base no id da rota. Retorna status 204, sem conteúdo na resposta.
+Requisição recebe token de autenticação nos headers, no campo authorization.
+
 ```JavaScript
 router.delete(
   '/talker/:id',
@@ -182,6 +202,9 @@ router.delete(
 ```
 
 ### 7 - Criação do endpoint GET `/talker/search?q=searchTerm`
+
+Endpoint retorna um array de palestrantes que contenham em seu nome o termo pesquisado no queryParam da URL.
+Retorna status 200.
 
 ```JavaScript
 router.get(
