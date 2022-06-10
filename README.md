@@ -29,6 +29,32 @@ Habilidades utilizadas:
 - Criação de rotas e aplicação de middlewares.
 ---
 
+### index.js
+
+```JavaScript
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+app.use(bodyParser.json());
+
+const HTTP_OK_STATUS = 200;
+const PORT = '3000';
+
+// Raíz
+app.get('/', (_request, response) => {
+  response.status(HTTP_OK_STATUS).send();
+});
+
+app.listen(PORT, () => {
+  console.log('Online');
+});
+
+const talkersRoutes = require('./routes/talkersRoutes');
+
+app.use(talkersRoutes);
+```
+
 
 ### 1 - Criação do endpoint GET `/talker`
 
