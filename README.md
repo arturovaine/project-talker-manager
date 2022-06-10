@@ -30,18 +30,19 @@ Habilidades utilizadas:
 ---
 
 
-1 - Criação do endpoint GET `/talker`
+### 1 - Criação do endpoint GET `/talker`
 
-````
+```JavaScript
 router.get('/talker', async (req, res) => {
   const talkers = await fs.promises.readFile(path, 'utf-8');
 
   return (res.status(200).json(JSON.parse(talkers)));
 });
-````
-2 - Criação do endpoint GET `/talker/:id`
+```
 
-````
+### 2 - Criação do endpoint GET `/talker/:id`
+
+```JavaScript
 router.get('/talker/:id', async (req, res) => {
   const talkers = await fs.promises.readFile(path, 'utf-8');
   
@@ -52,20 +53,21 @@ router.get('/talker/:id', async (req, res) => {
   if (!talkerById) return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
   return res.status(200).json(talkerById);
 });
-````
-3 - Criação do endpoint POST `/login`
+```
 
-````
+### 3 - Criação do endpoint POST `/login`
+
+```JavaScript
 router.post(
   '/login',
   isValidEmail,
   isValidPassword,
   (_req, res) => res.status(200).json({ token: '7mqaVRXJSp886CGr' }),
 );
-````
+```
 
-4 - Criação do endpoint POST `/talker`
-````
+### 4 - Criação do endpoint POST `/talker`
+```JavaScript
 router.post(
   '/talker',
   isValidToken,
@@ -91,11 +93,11 @@ router.post(
     res.status(201).json({ name, age, id: talkers.length, talk: { watchedAt, rate } });  
   },
 );
-````
+```
 
-5 - Criação do endpoint PUT `/talker/:id`
+### 5 - Criação do endpoint PUT `/talker/:id`
 
-````
+```JavaScript
 router.put(
   '/talker/:id',
   isValidToken,
@@ -128,10 +130,11 @@ router.put(
     res.status(200).json(talkers[index]);
   },
 );
-````
-6 - Criação do endpoint DELETE `/talker/:id`
+```
 
-````
+### 6 - Criação do endpoint DELETE `/talker/:id`
+
+```JavaScript
 router.delete(
   '/talker/:id',
   isValidToken,
@@ -150,10 +153,11 @@ router.delete(
     res.status(204).end();
   },
 );
-````
-7 - Criação do endpoint GET `/talker/search?q=searchTerm`
+```
 
-````
+### 7 - Criação do endpoint GET `/talker/search?q=searchTerm`
+
+```JavaScript
 router.get(
   '/talker/search',
   isValidToken,
@@ -172,4 +176,4 @@ router.get(
     res.status(200).send({ message: 'ok' });
   },
 );
-````
+```
