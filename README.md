@@ -151,4 +151,25 @@ router.delete(
   },
 );
 ````
+7 - Criação do endpoint GET `/talker/search?q=searchTerm`
 
+````
+router.get(
+  '/talker/search',
+  isValidToken,
+  (req, res) => {
+    const { searchTerm } = req.query;
+    const talkers = fs.readFileSync('./talker.json', 'utf-8');
+
+    const conditionIndex = (talker) => talker.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const index = talkers.findIndex(conditionIndex);
+    console.log(index);
+
+    if (searchTerm) {
+      return (res.status(200).json(JSON.parse(talkers)));
+    }
+    console.log('oi');
+    res.status(200).send({ message: 'ok' });
+  },
+);
+````
