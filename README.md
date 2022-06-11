@@ -29,6 +29,21 @@ Habilidades utilizadas:
 - Criação de rotas e aplicação de middlewares.
 ---
 
+### Estrutura do projeto
+
+
+├───README.md 
+├───index.js
+├───package.json   
+├───talker.json
+│
+├───middlewares
+│   └─ validations.js 
+│   
+└───routes
+    └─ talkerRoutes.js
+
+
 ### index.js
 
 ```JavaScript
