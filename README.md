@@ -31,7 +31,7 @@ Habilidades utilizadas:
 
 ### Estrutura do projeto
 
-
+```
 ├───README.md 
 ├───index.js
 ├───package.json   
@@ -43,6 +43,7 @@ Habilidades utilizadas:
 └───routes
     └─ talkerRoutes.js
 
+```
 
 ### index.js
 
