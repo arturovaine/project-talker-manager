@@ -29,7 +29,7 @@ Habilidades utilizadas:
 - Criação de rotas e aplicação de middlewares.
 ---
 
-### Estrutura do projeto
+### Estrutura de base do projeto
 
 ```
 ├───README.md 
