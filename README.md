@@ -31,15 +31,15 @@ Habilidades utilizadas:
 ### Estrutura de base do projeto
 
 ```
-├───README.md 
-├───index.js
-├───package.json   
-├───talker.json
+├─ README.md 
+├─ index.js
+├─ package.json   
+├─ talker.json
 │
-├───middlewares
+├─ middlewares
 │   └─ validations.js 
 │   
-└───routes
+└─ routes
     └─ talkerRoutes.js
 
 ```
